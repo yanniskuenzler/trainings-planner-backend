@@ -40,7 +40,7 @@ class TrainingDB {
 
     getTraining(trainingID) {
         let sqlSelectTraining = `SELECT t.date, t.weekday, tc.trainingCategoryName, t.duration, t.totalDistance FROM table_training t JOIN table_trainingcategory tc ON t.trainingCategory_fk=tc.trainingCategory_ID WHERE t.training_ID='${trainingID}'`;
-        let sqlSelectSection = `SELECT sc.sectionCategoryName, s.sectionContent, s.sectionInde FROM table_section s JOIN table_sectioncategory sc ON s.sectionCategory_fk=sc.sectionCategory_ID WHERE s.training_fk='${trainingID}'`;
+        let sqlSelectSection = `SELECT sc.sectionCategoryName, s.sectionContent, s.sectionIndex FROM table_section s JOIN table_sectioncategory sc ON s.sectionCategory_fk=sc.sectionCategory_ID WHERE s.training_fk='${trainingID}'`;
 
         this.connection.query(sqlSelectTraining, (err, result) => {
             if (err) throw err;
@@ -48,9 +48,9 @@ class TrainingDB {
 
             this.connection.query(sqlSelectSection, (err, result) => {
                 if (err) throw err;
-                
-            })
-        })
+                let sectionResult = result;
+            });
+        });
 
     }
 
