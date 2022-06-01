@@ -1,5 +1,8 @@
 const mysql = require('mysql');
+const FormatTraining = require('../utils/FormatTraining');
 require('dotenv').config();
+
+const formatTraining = new FormatTraining();
 
 class TrainingDB {
     constructor() {
@@ -38,18 +41,24 @@ class TrainingDB {
         });
     }
 
-    getTraining(trainingID) {
-        let sqlSelectTraining = `SELECT t.date, t.weekday, tc.trainingCategoryName, t.duration, t.totalDistance FROM table_training t JOIN table_trainingcategory tc ON t.trainingCategory_fk=tc.trainingCategory_ID WHERE t.training_ID='${trainingID}'`;
-        let sqlSelectSection = `SELECT sc.sectionCategoryName, s.sectionContent, s.sectionIndex FROM table_section s JOIN table_sectioncategory sc ON s.sectionCategory_fk=sc.sectionCategory_ID WHERE s.training_fk='${trainingID}'`;
+    getTrainings() {
+        let json = {};
+        let sqlSelectTraining = "SELECT t.training_ID, t.date, t.weekday, tc.trainingCategoryName, t.duration, t.totalDistance FROM table_training t JOIN table_trainingcategory tc ON t.trainingCategory_fk=tc.trainingCategory_ID;";
 
         this.connection.query(sqlSelectTraining, (err, result) => {
             if (err) throw err;
             let trainingResult = result;
 
-            this.connection.query(sqlSelectSection, (err, result) => {
-                if (err) throw err;
-                let sectionResult = result;
-            });
+            trainingResult.forEach((item) => {
+                let sqlSelectSections = `SELECT sc.sectionCategoryName, s.sectionContent, s.sectionIndex FROM table_section s JOIN table_sectioncategory sc ON s.sectionCategory_fk=sc.sectionCategory_ID WHERE training_fk='${item.training_ID}';`
+
+                this.connection.query(sqlSelectSections, (err, result) => {
+                    if (err) throw err;
+                    formatTraining.addTrainingToJSON(trainingResult, result);
+
+                })
+            })
+
         });
 
     }

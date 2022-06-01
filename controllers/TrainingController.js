@@ -21,8 +21,8 @@ const AddTraining = (req, res) => {
     res.status(response.getStatusCode()).json(response.getData());
 }
 
-const GetTraining = (req, res) => {
-    trainingDB.getTraining(req.param("id"));
+const GetTrainings = (req, res) => {
+    trainingDB.getTrainings();
 }
 
-module.exports = { AddTraining, GetTraining }
+module.exports = { AddTraining, GetTrainings }
