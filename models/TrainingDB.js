@@ -42,27 +42,27 @@ class TrainingDB {
     }
 
     getTrainings() {
-        let json = {};
         let sqlSelectTraining = "SELECT t.training_ID, t.date, t.weekday, tc.trainingCategoryName, t.duration, t.totalDistance FROM table_training t JOIN table_trainingcategory tc ON t.trainingCategory_fk=tc.trainingCategory_ID;";
 
-        this.connection.query(sqlSelectTraining, (err, result) => {
+        this.connection.query(sqlSelectTraining, (err, trainingResults) => {
             if (err) throw err;
-            let trainingResult = result;
 
-            trainingResult.forEach((item) => {
-                let sqlSelectSections = `SELECT sc.sectionCategoryName, s.sectionContent, s.sectionIndex FROM table_section s JOIN table_sectioncategory sc ON s.sectionCategory_fk=sc.sectionCategory_ID WHERE training_fk='${item.training_ID}';`
+            Promise.all(trainingResults.map((trainingResult) => {
+                let sqlSelectSections = `SELECT sc.sectionCategoryName, s.sectionContent, s.sectionIndex FROM table_section s JOIN table_sectioncategory sc ON s.sectionCategory_fk=sc.sectionCategory_ID WHERE training_fk='${trainingResult.training_ID}';`
+                return new Promise((resolve, reject) => {
+                    this.connection.query(sqlSelectSections, (err, sectionResult) => {
+                        if (err) reject(err);
 
-                this.connection.query(sqlSelectSections, (err, result) => {
-                    if (err) throw err;
-                    formatTraining.addTrainingToJSON(trainingResult, result);
-
-                })
-            })
-
+                        formatTraining.addTrainingToJSON(trainingResult, sectionResult);
+                        resolve(sectionResult);
+                    });
+                });
+            })).then(() => {
+                return formatTraining.getTrainingJSON();
+            });
         });
 
     }
-
 
 }
 

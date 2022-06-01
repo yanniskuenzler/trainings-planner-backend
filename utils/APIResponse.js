@@ -1,5 +1,5 @@
 class APIResponse {
-    constructor(statusCode, description, data) {
+    constructor(statusCode, data) {
         this.statusCode = statusCode;
         this.data = data;
     }

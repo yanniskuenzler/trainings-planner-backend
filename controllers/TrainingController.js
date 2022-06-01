@@ -17,12 +17,12 @@ const AddTraining = (req, res) => {
         "content": req.body.content
     };
     trainingDB.addTraining(trainingHeader, trainingBody);
-    const response = new APIResponse(201, "Successfully created!", {});
+    const response = new APIResponse(201, {});
     res.status(response.getStatusCode()).json(response.getData());
 }
 
 const GetTrainings = (req, res) => {
-    trainingDB.getTrainings();
+    let test = trainingDB.getTrainings();
 }
 
 module.exports = { AddTraining, GetTrainings }
