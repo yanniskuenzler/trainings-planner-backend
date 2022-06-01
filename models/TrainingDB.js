@@ -41,7 +41,7 @@ class TrainingDB {
         });
     }
 
-    getTrainings() {
+    getTrainings(req, res) {
         let sqlSelectTraining = "SELECT t.training_ID, t.date, t.weekday, tc.trainingCategoryName, t.duration, t.totalDistance FROM table_training t JOIN table_trainingcategory tc ON t.trainingCategory_fk=tc.trainingCategory_ID;";
 
         this.connection.query(sqlSelectTraining, (err, trainingResults) => {
@@ -54,14 +54,13 @@ class TrainingDB {
                         if (err) reject(err);
 
                         formatTraining.addTrainingToJSON(trainingResult, sectionResult);
-                        resolve(sectionResult);
+                        resolve();
                     });
                 });
             })).then(() => {
-                return formatTraining.getTrainingJSON();
+                res.status(200).json(formatTraining.getTrainingJSON());
             });
         });
-
     }
 
 }

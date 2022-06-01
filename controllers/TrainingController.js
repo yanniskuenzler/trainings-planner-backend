@@ -22,7 +22,7 @@ const AddTraining = (req, res) => {
 }
 
 const GetTrainings = (req, res) => {
-    let test = trainingDB.getTrainings();
+    trainingDB.getTrainings(req, res);
 }
 
 module.exports = { AddTraining, GetTrainings }

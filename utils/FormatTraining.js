@@ -3,6 +3,7 @@ class FormatTraining {
 
     addTrainingToJSON(trainingHeader, trainingBody) {
         let tempJSON = {
+            "id": trainingHeader.training_ID,
             "date": trainingHeader.date,
             "weekday": trainingHeader.weekday,
             "trainingCategory": trainingHeader.trainingCategoryName,
@@ -22,6 +23,8 @@ class FormatTraining {
         });
 
         this.trainingJSON.push(tempJSON);
+
+        return this.trainingJSON;
     }
 
     getTrainingJSON() {
