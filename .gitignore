@@ -1,4 +1,6 @@
 node_modules/
 .idea
-addTraining.http
+HTTPRequests/addTraining.http
+HTTPRequests/deleteTraining.http
+responseDataDef.json
 .env

@@ -25,4 +25,10 @@ const GetTrainings = (req, res) => {
     trainingDB.getTrainings(req, res);
 }
 
-module.exports = { AddTraining, GetTrainings }
+const DeleteTraining = (req, res) => {
+    trainingDB.deleteTraining(req.params['id']);
+    const response = new APIResponse(200, {});
+    res.status(response.getStatusCode()).json(response.getData());
+}
+
+module.exports = { AddTraining, GetTrainings, DeleteTraining }

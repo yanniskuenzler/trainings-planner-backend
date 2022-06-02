@@ -42,13 +42,14 @@ class TrainingDB {
     }
 
     getTrainings(req, res) {
-        let sqlSelectTraining = "SELECT t.training_ID, t.date, t.weekday, tc.trainingCategoryName, t.duration, t.totalDistance FROM table_training t JOIN table_trainingcategory tc ON t.trainingCategory_fk=tc.trainingCategory_ID;";
+        let sqlSelectTraining = "SELECT t.training_ID, t.date, t.weekday, tc.trainingCategoryName, t.duration, t.totalDistance FROM table_training t JOIN table_trainingcategory tc ON t.trainingCategory_fk=tc.trainingCategory_ID ORDER BY t.date;";
 
         this.connection.query(sqlSelectTraining, (err, trainingResults) => {
             if (err) throw err;
 
             Promise.all(trainingResults.map((trainingResult) => {
                 let sqlSelectSections = `SELECT sc.sectionCategoryName, s.sectionContent, s.sectionIndex FROM table_section s JOIN table_sectioncategory sc ON s.sectionCategory_fk=sc.sectionCategory_ID WHERE training_fk='${trainingResult.training_ID}';`
+                formatTraining.resetJSON();
                 return new Promise((resolve, reject) => {
                     this.connection.query(sqlSelectSections, (err, sectionResult) => {
                         if (err) reject(err);
@@ -63,6 +64,21 @@ class TrainingDB {
         });
     }
 
+    deleteTraining(id) {
+        let sqlDeleteSections = `DELETE FROM table_section WHERE training_fk='${id}';`
+        let sqlDeleteTraining = `DELETE FROM table_training WHERE training_ID='${id}';`
+
+        this.connection.query(sqlDeleteSections, (err, result) => {
+            if (err) throw err;
+
+            this.connection.query(sqlDeleteTraining, (err, result) => {
+                if (err) throw err;
+
+            });
+        });
+    }
+
 }
+
 
 module.exports = TrainingDB;

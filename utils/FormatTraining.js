@@ -30,6 +30,10 @@ class FormatTraining {
     getTrainingJSON() {
         return this.trainingJSON;
     }
+
+    resetJSON() {
+        this.trainingJSON = [];
+    }
 }
 
 module.exports = FormatTraining;
