@@ -9,7 +9,7 @@ class FormatTraining {
             "trainingCategory": trainingHeader.trainingCategoryName,
             "duration": trainingHeader.duration,
             "distance": trainingHeader.totalDistance,
-            "content": []
+            "contents": []
         };
 
         trainingBody.forEach((item) => {
@@ -19,7 +19,7 @@ class FormatTraining {
                 index: item.sectionIndex
             }
 
-            tempJSON.content.push(tempSectionJSON);
+            tempJSON.contents.push(tempSectionJSON);
         });
 
         this.trainingJSON.push(tempJSON);

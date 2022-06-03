@@ -48,7 +48,7 @@ class TrainingDB {
             if (err) throw err;
 
             Promise.all(trainingResults.map((trainingResult) => {
-                let sqlSelectSections = `SELECT sc.sectionCategoryName, s.sectionContent, s.sectionIndex FROM table_section s JOIN table_sectioncategory sc ON s.sectionCategory_fk=sc.sectionCategory_ID WHERE training_fk='${trainingResult.training_ID}';`
+                let sqlSelectSections = `SELECT sc.sectionCategoryName, s.sectionContent, s.sectionIndex FROM table_section s JOIN table_sectioncategory sc ON s.sectionCategory_fk=sc.sectionCategory_ID WHERE training_fk='${trainingResult.training_ID}' ORDER BY s.sectionIndex;`
                 formatTraining.resetJSON();
                 return new Promise((resolve, reject) => {
                     this.connection.query(sqlSelectSections, (err, sectionResult) => {
@@ -59,6 +59,8 @@ class TrainingDB {
                     });
                 });
             })).then(() => {
+                res.header("Access-Control-Allow-Origin", "*");
+                res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                 res.status(200).json(formatTraining.getTrainingJSON());
             });
         });
