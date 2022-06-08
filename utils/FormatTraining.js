@@ -15,8 +15,7 @@ class FormatTraining {
         trainingBody.forEach((item) => {
             let tempSectionJSON = {
                 sectionCategory: item.sectionCategoryName,
-                value: item.sectionContent,
-                index: item.sectionIndex
+                value: item.sectionContent
             }
 
             tempJSON.contents.push(tempSectionJSON);

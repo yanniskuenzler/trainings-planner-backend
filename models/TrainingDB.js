@@ -29,9 +29,9 @@ class TrainingDB {
         this.connection.query(sqlInsertTraining, (err, result) => {
             if (err) throw err;
 
-            body.content.forEach((item, index) => {
-                let sqlInsertSection = 'INSERT INTO table_section (sectionContent, sectionIndex, training_fk, sectionCategory_fk) VALUES ' +
-                    `('${item.value}', '${index}', '${header.uuid}', ` +
+            body.content.forEach((item) => {
+                let sqlInsertSection = 'INSERT INTO table_section (sectionContent, training_fk, sectionCategory_fk) VALUES ' +
+                    `('${item.value}', '${header.uuid}', ` +
                     `(SELECT sectionCategory_ID FROM table_sectioncategory WHERE sectionCategoryName = '${item.sectionCategory}'))`;
 
                 this.connection.query(sqlInsertSection, (err, result) => {
@@ -48,7 +48,7 @@ class TrainingDB {
             if (err) throw err;
 
             Promise.all(trainingResults.map((trainingResult) => {
-                let sqlSelectSections = `SELECT sc.sectionCategoryName, s.sectionContent, s.sectionIndex FROM table_section s JOIN table_sectioncategory sc ON s.sectionCategory_fk=sc.sectionCategory_ID WHERE training_fk='${trainingResult.training_ID}' ORDER BY s.sectionIndex;`
+                let sqlSelectSections = `SELECT sc.sectionCategoryName, s.sectionContent FROM table_section s JOIN table_sectioncategory sc ON s.sectionCategory_fk=sc.sectionCategory_ID WHERE training_fk='${trainingResult.training_ID}' ORDER BY s.section_ID;`
                 formatTraining.resetJSON();
                 return new Promise((resolve, reject) => {
                     this.connection.query(sqlSelectSections, (err, sectionResult) => {
