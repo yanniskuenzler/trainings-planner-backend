@@ -21,7 +21,7 @@ class TrainingDB {
         });
     }
 
-    addTraining(header, body) {
+    async addTraining(header, body) {
         let sqlInsertTraining = 'INSERT INTO table_training (training_ID, date, weekday, duration, totalDistance, trainingCategory_fk) VALUES ' +
         `('${header.uuid}', '${header.date}', '${header.weekday}', '${body.duration}', '${body.distance}', ` +
         `(SELECT trainingCategory_ID FROM table_trainingCategory WHERE trainingCategoryName = '${header.trainingCategory}'))`;

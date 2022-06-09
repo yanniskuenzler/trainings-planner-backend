@@ -1,6 +1,5 @@
 const crypto = require('node:crypto');
 const TrainingDB = require('../models/TrainingDB');
-const APIResponse = require('../utils/APIResponse');
 
 const trainingDB = new TrainingDB();
 
@@ -16,9 +15,11 @@ const AddTraining = (req, res) => {
         "distance": req.body.distance,
         "content": req.body.content
     };
-    trainingDB.addTraining(trainingHeader, trainingBody);
-    const response = new APIResponse(201, {});
-    res.status(response.getStatusCode()).json(response.getData());
+    trainingDB.addTraining(trainingHeader, trainingBody).then(() => {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.status(201).json({});
+    });
 }
 
 const GetTrainings = (req, res) => {
