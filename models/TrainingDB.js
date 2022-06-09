@@ -21,18 +21,18 @@ class TrainingDB {
         });
     }
 
-    async addTraining(header, body) {
+    async addTraining(head, body) {
         let sqlInsertTraining = 'INSERT INTO table_training (training_ID, date, weekday, duration, totalDistance, trainingCategory_fk) VALUES ' +
-        `('${header.uuid}', '${header.date}', '${header.weekday}', '${body.duration}', '${body.distance}', ` +
-        `(SELECT trainingCategory_ID FROM table_trainingCategory WHERE trainingCategoryName = '${header.trainingCategory}'))`;
+        `('${head.uuid}', '${head.date}', '${head.weekday}', '${head.duration}', '${head.distance}', ` +
+        `(SELECT trainingCategory_ID FROM table_trainingCategory WHERE trainingCategoryName = '${head.trainingCategory}'))`;
 
         this.connection.query(sqlInsertTraining, (err, result) => {
             if (err) throw err;
 
-            body.content.forEach((item) => {
+            body.forEach((section) => {
                 let sqlInsertSection = 'INSERT INTO table_section (sectionContent, training_fk, sectionCategory_fk) VALUES ' +
-                    `('${item.value}', '${header.uuid}', ` +
-                    `(SELECT sectionCategory_ID FROM table_sectioncategory WHERE sectionCategoryName = '${item.sectionCategory}'))`;
+                    `('${section.sectionValue}', '${head.uuid}', ` +
+                    `(SELECT sectionCategory_ID FROM table_sectioncategory WHERE sectionCategoryName = '${section.sectionCategory}'))`;
 
                 this.connection.query(sqlInsertSection, (err, result) => {
                     if (err) throw err;
@@ -66,7 +66,7 @@ class TrainingDB {
         });
     }
 
-    deleteTraining(id) {
+    async deleteTraining(id) {
         let sqlDeleteSections = `DELETE FROM table_section WHERE training_fk='${id}';`
         let sqlDeleteTraining = `DELETE FROM table_training WHERE training_ID='${id}';`
 
