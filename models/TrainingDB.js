@@ -78,10 +78,6 @@ class TrainingDB {
         return this.trainingJSON;
     }
 
-    resetTrainingJSON() {
-        this.trainingJSON = [];
-    }
-
     async deleteTraining(id) {
         return new Promise((resolve, reject) => {
             let sqlDeleteSections = `DELETE FROM table_section WHERE training_fk='${id}';`
