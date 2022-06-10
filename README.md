@@ -1,7 +1,7 @@
 # Abschlussprojekt ZLI Backend
 ### Grundidee
 Inhalt...
-```
+
 trainings-planner-backend
 ├─ .git
 ├─ .gitignore
@@ -19,6 +19,3 @@ trainings-planner-backend
 ├─ package-lock.json
 ├─ package.json
 ├─ README.md
-
-
-```
