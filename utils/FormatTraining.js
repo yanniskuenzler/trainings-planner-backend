@@ -8,7 +8,6 @@ class FormatTraining {
             "weekday": trainingHeader.weekday,
             "trainingCategory": trainingHeader.trainingCategoryName,
             "duration": trainingHeader.duration,
-            "distance": trainingHeader.totalDistance,
             "contents": []
         };
 

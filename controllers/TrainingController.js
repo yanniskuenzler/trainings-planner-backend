@@ -1,6 +1,5 @@
 const crypto = require('node:crypto');
 const TrainingDB = require('../models/TrainingDB');
-
 const trainingDB = new TrainingDB();
 
 const AddTraining = (req, res) => {
@@ -9,30 +8,23 @@ const AddTraining = (req, res) => {
         "trainingCategory": req.body.trainingCategory,
         "date": req.body.date,
         "weekday": req.body.weekday,
-        "duration": req.body.duration,
-        "distance": req.body.distance
+        "duration": req.body.duration
     }
     let trainingBody = req.body.trainingBody;
     trainingDB.addTraining(trainingHead, trainingBody).then(() => {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        res.status(201).json({});
+        res.status(201).json({msg: "Data successfully stored in database"});
     });
 }
 
 const GetTrainings = (req, res) => {
     trainingDB.getTrainings().then(() => {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.status(200).json(trainingDB.getResponseTrainingJSON());
     });
 }
 
 const DeleteTraining = (req, res) => {
     trainingDB.deleteTraining(req.params['id']).then(() => {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        res.status(200).json({});
+        res.status(200).json({msg: "Data successfully deleted from database"});
     });
 }
 

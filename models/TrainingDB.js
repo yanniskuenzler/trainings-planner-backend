@@ -25,8 +25,8 @@ class TrainingDB {
 
     async addTraining(head, body) {
         return new Promise((resolve, reject) => {
-            let sqlInsertTraining = 'INSERT INTO table_training (training_ID, date, weekday, duration, totalDistance, trainingCategory_fk) VALUES ' +
-                `('${head.uuid}', '${head.date}', '${head.weekday}', '${head.duration}', '${head.distance}', ` +
+            let sqlInsertTraining = 'INSERT INTO table_training (training_ID, date, weekday, duration, trainingCategory_fk) VALUES ' +
+                `('${head.uuid}', '${head.date}', '${head.weekday}', '${head.duration}', ` +
                 `(SELECT trainingCategory_ID FROM table_trainingCategory WHERE trainingCategoryName = '${head.trainingCategory}'))`;
 
             this.connection.query(sqlInsertTraining, (err, result) => {
@@ -50,7 +50,7 @@ class TrainingDB {
 
     async getTrainings() {
         return new Promise((resolve, reject) => {
-            let sqlSelectTraining = "SELECT t.training_ID, t.date, t.weekday, tc.trainingCategoryName, t.duration, t.totalDistance FROM table_training t JOIN table_trainingcategory tc ON t.trainingCategory_fk=tc.trainingCategory_ID ORDER BY t.date;";
+            let sqlSelectTraining = "SELECT t.training_ID, t.date, t.weekday, tc.trainingCategoryName, t.duration FROM table_training t JOIN table_trainingcategory tc ON t.trainingCategory_fk=tc.trainingCategory_ID ORDER BY t.date;";
             formatTraining.resetJSON();
             this.connection.query(sqlSelectTraining, (err, trainingResults) => {
                 if (err) reject(err);
