@@ -21,7 +21,6 @@ class FormatTraining {
         });
 
         this.trainingJSON.push(tempJSON);
-
         return this.trainingJSON;
     }
 

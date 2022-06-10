@@ -16,6 +16,7 @@ class TrainingDB {
 
         this.connection.connect((err) => {
             if (err) throw err;
+
             console.log("Connected successfully to database!");
             this.connection.query('USE trainings_planner_db', (err, result) => {
                 if (err) throw err;
