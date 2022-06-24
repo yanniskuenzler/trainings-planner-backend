@@ -18,7 +18,7 @@ class TrainingDB {
             if (err) throw err;
 
             console.log("Connected successfully to database!");
-            this.connection.query('USE trainings_planner_db', (err, result) => {
+            this.connection.query('USE heroku_424f7042f8e2f68', (err, result) => {
                 if (err) throw err;
             });
         });
