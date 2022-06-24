@@ -3,3 +3,4 @@ node_modules/
 HTTPRequests/addTraining.http
 HTTPRequests/deleteTraining.http
 responseDataDef.json
+.env
